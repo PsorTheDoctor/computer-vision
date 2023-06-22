@@ -10,6 +10,16 @@ def backproj(bins):
     backproj = cv2.calcBackProject([hue], [0], hist, hueRange, scale=1)
     cv2.imshow('Back Projection', backproj)
 
+    w = 400
+    h = 400
+    bin_w = int(round(w / histSize))
+    histImg = np.zeros((h, w, 3), dtype=np.uint8)
+    for i in range(bins):
+        cv2.rectangle(histImg, (i * bin_w, h),
+                      ((i+1) * bin_w, h - int(np.round(hist[i] * h / 255.0))),
+                      (255, 255, 255), cv2.FILLED)
+    cv2.imshow('Histogram', histImg)
+
 
 img = cv2.imread('../data/sunflower.jpg')
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
